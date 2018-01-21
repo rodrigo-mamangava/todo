@@ -1,0 +1,17 @@
+{
+  "name": "ToDo",
+  "authors": [
+    "rodrigo-mamangava <rodrigo@mamangava.com>"
+  ],
+  "description": "Projeto para avaliação da empresa Genial Investimentos",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

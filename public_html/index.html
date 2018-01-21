@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html ng-app="app">
+    <head>
+        <title>ToDo Rodrigo Muniz - Genial Investimento</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="../bower_components/bootstrap-3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+
+        <script src="../bower_components/angular/angular.min.js"></script>
+        <script src="app/tarefasController.js"></script>
+
+
+    </head>
+    <body  ng-controller="TarefasController">
+
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">ToDo - Rodrigo Muniz</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <form class="navbar-form navbar-right" role="search">
+
+                        <a href="#" ng-click="atualizarLista()" class="btn btn-default" >
+                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                        </a>
+
+                        <a href="#" ng-click="limparTarefa()" class="btn btn-default" data-toggle="modal" data-target="#myModal">
+                            <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                            Nova tarefa
+                        </a>
+
+                    </form>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+
+        <div class="container">
+            <div class="tabela">
+                <div class="row">
+
+                    <div class="col-xs-12 text-right">
+
+                        Mostrar:  
+                        <label class="radio-inline" >
+                            <input type="radio" name="optionsRadios" id="optionsRadios1" ng-model="search.Concluido" value="" checked>
+                            Todos
+                        </label>
+
+
+                        <label class="radio-inline">
+                            <input type="radio" name="optionsRadios" id="optionsRadios2" ng-model="search.Concluido" value="false" >
+                            Em aberto
+                        </label>
+
+
+                        <label class="radio-inline">
+                            <input type="radio" name="optionsRadios" id="optionsRadios3" ng-model="search.Concluido" value="true">
+                            Finalizados
+                        </label>
+
+                    </div>
+
+                    <div class="col-xs-12">
+
+
+                        <table class="table">
+                            <tr>
+                                <th></th>
+                                <th>Tarefa</th> 
+                                <th>
+                                </th> 
+
+                            </tr>
+                            <tr ng-repeat="tarefa in tarefas| filter:search |  orderBy:['Concluido', '-Id'] ">
+                                <td>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" ng-model="tarefa.Concluido" ng-click="atualizar(tarefa)"> 
+                                        </label>
+                                    </div>
+                                </td>
+                                <td class="{{(tarefa.Concluido) ? 'tarefa-finalizada' : ''}}">
+                                    {{tarefa.Descricao}}
+                                </td> 
+                                <td class="text-right">
+                                    <a class="btn btn-default" href="#" ng-click="excluir(tarefa)" role="button">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="#" ng-click="popularTarefa(tarefa)" class="btn btn-default" data-toggle="modal" data-target="#myModalEditar">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    </a>
+                                </td> 
+
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Modal NOVA TAREFA -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Nova tarefa</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" ng-model="tarefa.Descricao" class="form-control" >
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" ng-click="atualizarLista()" class="btn btn-default" data-dismiss="modal">
+                            Close
+                        </a>
+                        <a class="btn btn-default" href="#" ng-click="criarTarefa(tarefa)" data-dismiss="modal"  role="button">
+                            Save changes
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Modal NOVA TAREFA -->
+
+        <!-- Modal EDITAR TAREFA -->
+        <div class="modal fade" id="myModalEditar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Editar tarefa</h4>
+
+                    </div>
+                    <div class="modal-body">
+                        <input class="form-control" ng-model="tarefaPopulada.Descricao" >
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" ng-click="atualizarLista()" class="btn btn-default" data-dismiss="modal">
+                            Close
+                        </a>
+                        <a class="btn btn-primary" ng-click="atualizar(tarefaPopulada)" data-dismiss="modal">
+                            Salvar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="../bower_components/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
+    </body>
+
+</html>
