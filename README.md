@@ -1,14 +1,14 @@
 # ToDoWebApi
 Projeto para avaliação - Genial Investimentos
 
-###Objetivo
+### Objetivo
 Implementar um TODO List completo (CRUD) em .Net 4.5 utilizando Frontend Web (qualquer framework Web) e WEB API + ORM no Backend. Para isso foram criando dois projeto: ToDoWebApi e o ToDo.
 
-##ToDoWebApi - back-end.
+## ToDoWebApi - back-end.
 - WebApi.
 - ORM (NHibernate).
 - Testes Unitários.
-##ToDo - front-end.
+## ToDo - front-end.
 - Bootstrap
 - AngularJS 1.6
 
